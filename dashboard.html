@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <style>
+        /* ... all your styles ... */
         body {
             font-family: Arial, sans-serif;
             padding: 20px;
@@ -33,13 +34,23 @@
             background-color: #e0e0e0;
             border-radius: 50%;
         }
+        .test-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
     <div class="stats-grid placeholder-box">
-        <div><b>Total points:</b> XXX</div>
+        <div><b>Total points:</b> <span id="points-display">XXX</span></div>
         <div><b>Exercises done:</b> XXX</div>
         <div><b>Minutes improving:</b> XXX</div>
+    </div>
+
+    <div class="test-buttons">
+        <button id="add-btn">Add 20 Points</button>
+        <button id="remove-btn">Remove 10 Points</button>
     </div>
     
     <div class="placeholder-box" style="height: 300px;">
@@ -56,5 +67,7 @@
             <div class="achievement-circle"></div>
         </div>
     </div>
+
+    <script src="./lib/points.js"></script>
 </body>
 </html>

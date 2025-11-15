@@ -23,17 +23,62 @@
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
         }
+
+        /* --- 1. Updated Achievement Styles --- */
         .achievements-grid {
-            display: flex;
-            gap: 15px;
+            display: grid; /* Changed from flex to grid */
+            grid-template-columns: 1fr; /* Stack items vertically */
+            gap: 10px; /* Space between items */
             margin-top: 10px;
         }
-        .achievement-circle {
-            width: 80px;
-            height: 80px;
-            background-color: #e0e0e0;
-            border-radius: 50%;
+        .achievement-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background-color: #e9e9e9; /* Background for the whole item */
+            padding: 10px;
+            border-radius: 8px;
+            border: 3px solid #e9e9e9;
+            transition: all 0.3s ease;
         }
+        .achievement-item.unlocked {
+            /* Style for an unlocked achievement */
+            background-color: #fff8d4;
+            border-color: #f3c72e;
+        }
+        .achievement-circle {
+            width: 60px; /* Made circle a bit smaller */
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px; /* Smaller emoji */
+            color: #aaa;
+            background-color: #fff; /* White bg for circle */
+            border: 3px solid #ccc;
+            flex-shrink: 0; /* Prevent circle from squishing */
+            transition: all 0.3s ease;
+        }
+        .achievement-item.unlocked .achievement-circle {
+            border-color: #f3c72e;
+            color: #333;
+        }
+        .achievement-text {
+            color: #777;
+            font-size: 0.9em;
+        }
+        .achievement-text b {
+            color: #333;
+            display: block; /* Puts title on its own line */
+            font-size: 1.1em;
+            margin-bottom: 2px;
+        }
+        .achievement-item.unlocked .achievement-text {
+            color: #333;
+        }
+        /* --- End of new styles --- */
+
         .test-buttons {
             display: flex;
             gap: 10px;
@@ -75,7 +120,7 @@
 <body>
     <div class="stats-grid placeholder-box">
         <div><b>Total points:</b> <span id="points-display">0</span></div>
-        <div><b>Exercises done:</b> XXX</div>
+        <div><b>Exercises done:</b> <span id="exercises-display">0</span></div>
         <div><b>Minutes improving:</b> XXX</div>
     </div>
 
@@ -91,71 +136,151 @@
             <div class="fish" id="fish-display">🐟</div>
         </div>
     </div>
+    
     <div class="placeholder-box">
         <h2>ACHIEVEMENTS</h2>
         <div class="achievements-grid">
-            <div class="achievement-circle"></div>
-            <div class="achievement-circle"></div>
-            <div class="achievement-circle"></div>
-            <div class="achievement-circle"></div>
-            <div class="achievement-circle"></div>
+            <div class="achievement-item" id="ach-1" title="Locked: Do 1 exercise">
+                <div class="achievement-circle">❓</div>
+                <div class="achievement-text">
+                    <b class="ach-title">Locked</b>
+                    <span class="ach-desc">Do 1 exercise</span>
+                </div>
+            </div>
+            <div class="achievement-item" id="ach-5" title="Locked: Do 5 exercises">
+                <div class="achievement-circle">❓</div>
+                <div class="achievement-text">
+                    <b class="ach-title">Locked</b>
+                    <span class="ach-desc">Do 5 exercises</span>
+                </div>
+            </div>
+            <div class="achievement-item" id="ach-10" title="Locked: Do 10 exercises">
+                <div class="achievement-circle">❓</div>
+                <div class="achievement-text">
+                    <b class="ach-title">Locked</b>
+                    <span class="ach-desc">Do 10 exercises</span>
+                </div>
+            </div>
+            <div class="achievement-item" id="ach-25" title="Locked: Do 25 exercises">
+                <div class="achievement-circle">❓</div>
+                <div class="achievement-text">
+                    <b class="ach-title">Locked</b>
+                    <span class="ach-desc">Do 25 exercises</span>
+                </div>
+            </div>
         </div>
     </div>
 
     <script src="lib/points.js"></script>
 
     <script>
+        // --- 3. Updated Achievement Definitions (now 4) ---
+        const ACHIEVEMENTS = [
+            { 
+                id: 'ach-1', 
+                exercises: 1, 
+                title: 'First Step!', 
+                desc: 'Completed 1 exercise', 
+                lockedDesc: 'Do 1 exercise',
+                emoji: '👟' 
+            },
+            { 
+                id: 'ach-5', 
+                exercises: 5, 
+                title: 'Getting the Hang of It', 
+                desc: 'Completed 5 exercises',
+                lockedDesc: 'Do 5 exercises',
+                emoji: '👀' 
+            },
+            { 
+                id: 'ach-10', 
+                exercises: 10, 
+                title: 'Healthy Habit', 
+                desc: 'Completed 10 exercises',
+                lockedDesc: 'Do 10 exercises',
+                emoji: '⭐' 
+            },
+            { 
+                id: 'ach-25', 
+                exercises: 25, 
+                title: 'Visionary', 
+                desc: 'Completed 25 exercises',
+                lockedDesc: 'Do 25 exercises',
+                emoji: '🧘' 
+            }
+        ];
+
         document.addEventListener('DOMContentLoaded', () => {
-            // Get the elements this script needs to control
-            // Note: The buttons are handled by the "glue code" in lib/points.js
             const pointsDisplay = document.getElementById('points-display');
             const water = document.getElementById('water-level');
             const fish = document.getElementById('fish-display');
+            const exercisesDisplay = document.getElementById('exercises-display');
 
-            // This function now reads from getPoints() (from lib/points.js)
             function updateDashboard() {
-                // Get the single source of truth from localStorage
                 const currentPoints = getPoints(); 
+                const currentExercises = getExercisesDone();
 
-                // We update the points display here too, to keep it
-                // in sync with the aquarium animation
                 pointsDisplay.textContent = currentPoints;
+                exercisesDisplay.textContent = currentExercises;
+                updateAchievements(currentExercises); // <-- This is the new function
 
+                // --- Fish Tank Logic (unchanged) ---
                 let waterHeight; 
-
                 if (currentPoints === 0) {
-                    waterHeight = 5; // 5% for a "puddle"
+                    waterHeight = 5;
                     water.style.height = waterHeight + '%';
                     fish.classList.add('dead');
-                
                 } else {
-                    fish.classList.remove('dead'); // Fish is alive!
-
+                    fish.classList.remove('dead');
                     const waterRange = 85; 
                     const minWater = 5;
                     let effectivePoints = Math.min(currentPoints, 100);
                     let fullnessPercent = effectivePoints / 100;
-                    
                     waterHeight = minWater + (fullnessPercent * waterRange); 
                     water.style.height = waterHeight + '%';
-
                     const aquariumHeight = document.querySelector('.aquarium').clientHeight; 
                     const fishSize = 50; 
-                    
                     let fishBottomPosition = (waterHeight / 100) * aquariumHeight - (fishSize / 2) - 10;
                     fishBottomPosition = Math.max(10, fishBottomPosition); 
-                    
                     fish.style.bottom = fishBottomPosition + 'px';
                 }
             }
 
-            // 💡 3. SET UP THE POLLING
-            // This is the core of your request:
-            // Run the updateDashboard function every 500ms (0.5 seconds)
+            // --- 4. Heavily updated function to update achievements ---
+            function updateAchievements(currentExercises) {
+                for (const ach of ACHIEVEMENTS) {
+                    const itemEl = document.getElementById(ach.id);
+                    if (!itemEl) continue; // Skip if item not found
+
+                    // Get the child elements
+                    const circleEl = itemEl.querySelector('.achievement-circle');
+                    const titleEl = itemEl.querySelector('.ach-title');
+                    const descEl = itemEl.querySelector('.ach-desc');
+
+                    if (!circleEl || !titleEl || !descEl) continue;
+
+                    // Check if the user has earned this achievement
+                    if (currentExercises >= ach.exercises) {
+                        itemEl.classList.add('unlocked');
+                        circleEl.textContent = ach.emoji;
+                        itemEl.title = ach.title; // Update main tooltip
+                        titleEl.textContent = ach.title;
+                        descEl.textContent = ach.desc;
+                    } else {
+                        // Keep it in the locked state
+                        itemEl.classList.remove('unlocked');
+                        circleEl.textContent = '❓';
+                        itemEl.title = ach.lockedDesc;
+                        titleEl.textContent = 'Locked';
+                        descEl.textContent = ach.lockedDesc;
+                    }
+                }
+            }
+
+            // SET UP THE POLLING
             setInterval(updateDashboard, 500);
 
-            // 💡 4. INITIAL UPDATE
-            // Run the function once right away on page load
+            // INITIAL UPDATE
             updateDashboard();
         });
     </script>

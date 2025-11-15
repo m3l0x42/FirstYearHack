@@ -149,7 +149,7 @@
         // --- 💡 EVENT LISTENERS MODIFIED ---
 
         skipButton.addEventListener('click', () => {
-            // 💡 MODIFIED: Call removePoints with the specific amount (20)
+            // This now works because removePoints() accepts an amount
             if (window.removePoints) {
                 window.removePoints(20);
             }
@@ -157,10 +157,18 @@
         });
 
         confirmButton.addEventListener('click', () => {
-            // 💡 MODIFIED: Call addPoints with the specific amount (40)
+            // This now works because addPoints() accepts an amount
             if (window.addPoints) {
                 window.addPoints(40);
             }
+            
+            // --- 💡 1. ADDED THIS LINE ---
+            // This is the new function that *only* counts the exercise
+            if (window.incrementExercise) {
+                window.incrementExercise();
+            }
+            // --- End of new logic ---
+
             stopAllTimersAndClose();
         });
 

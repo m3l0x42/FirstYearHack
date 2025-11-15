@@ -14,7 +14,6 @@
             box-sizing: border-box;
         }
         .content-box {
-            /* Using a white, solid box to match the new theme */
             background-color: #fff;
             border: 1px solid #ccc;
             padding: 20px;
@@ -32,7 +31,6 @@
         p {
             line-height: 1.6;
         }
-        /* Modern grid and card styles for the third box */
         .modern-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -53,12 +51,10 @@
         .card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(31,78,166,0.09); }
         .card-title { margin: 0 0 8px 0; color: #11468b; font-weight:700; font-size:1rem; }
         .card-desc { margin: 0; color: #333; font-size:0.95rem; line-height:1.45; }
-    /* 20-20-20 rule: center heading and justify content */
     #twenty-twenty h2 { text-align: center; }
     #twenty-twenty p,
     #twenty-twenty ul,
     #twenty-twenty li { text-align: justify; text-justify: inter-word; }
-        /* external test button style (used in Tests box) */
         .external-test-button {
             display: inline-flex;
             align-items: center;
@@ -76,9 +72,8 @@
         }
         .external-test-button:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(74,134,232,0.20); }
         .external-test-button:focus { outline: 3px solid rgba(74,134,232,0.18); outline-offset: 3px; }
-        /* details/summary styling for collapsible boxes */
         details.content-box {
-            padding: 0; /* content-box padding applied to inner area */
+            padding: 0;
             border: none;
             background: transparent;
         }
@@ -94,7 +89,6 @@
             color: #11468b;
             list-style: none;
         }
-        /* hide default marker and add custom chevron */
         details.content-box > summary::-webkit-details-marker { display: none; }
         details.content-box > summary::before {
             content: '▸';
@@ -104,7 +98,6 @@
             color: #2b5fa8;
         }
         details.content-box[open] > summary::before { transform: rotate(90deg); }
-        /* content area styling inside opened details */
         details.content-box > .details-body {
             padding: 16px 20px 20px 20px;
             background: #fff;
@@ -112,14 +105,11 @@
             border-radius: 8px;
             margin-top: -8px;
         }
-        /* for large box variant */
         details.content-box.content-box-large > summary { font-size:1.15rem; padding:20px; }
     </style>
 </head>
 <body>
     <h1>Education: Health Exercises</h1>
-    
-    <!-- 20-20-20 Rule section (prominent, above the collapsible boxes) -->
     <div class="content-box content-box-large" id="twenty-twenty">
         <h2>20-20-20 Rule</h2>
         <p>The 20-20-20 rule is a guideline for preventing digital eye strain: every <strong>20 minutes</strong>, look at something <strong>20 feet</strong> away for at least <strong>20 seconds</strong>. This helps relax the eye muscles after prolonged focus on a screen, which can reduce symptoms like headaches, dry eyes, and blurred vision. The rule applies to any screen, including computers, phones, and tablets.</p>

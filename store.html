@@ -10,13 +10,11 @@
             padding: 20px;
             background-color: #f4f4f4;
             margin: 0;
-            /* Add padding at the top to avoid overlap with the sticky header */
             padding-top: 80px; 
         }
 
-        /* --- Points Display (Top Bar) --- */
         .points-header {
-            position: fixed; /* Sticks to the top */
+            position: fixed;
             top: 0;
             left: 0;
             right: 0;
@@ -31,7 +29,6 @@
         .points-header span {
             color: #4a86e8;
             font-size: 1.3em;
-            /* Aligns the number better with the text */
             vertical-align: middle; 
         }
 
@@ -41,17 +38,14 @@
             margin-bottom: 30px;
         }
 
-        /* --- Store Grid --- */
         .store-grid {
             display: grid;
-            /* Creates responsive columns */
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 20px;
             max-width: 900px;
             margin: 0 auto;
         }
 
-        /* --- Item Card --- */
         .item-card {
             background-color: #fff;
             border-radius: 8px;
@@ -84,7 +78,6 @@
             font-weight: bold;
         }
 
-        /* --- Buy Button --- */
         .buy-btn {
             background-color: #28a745;
             color: white;
@@ -121,8 +114,6 @@
     <script src="lib/points.js"></script>
 
     <script>
-        // --- Configuration ---
-        // Define all available store items here
         const STORE_ITEMS = [
             { id: 'fish_common', name: 'Common Fish', emoji: '🐟', cost: 100 },
             { id: 'fish_tropical', name: 'Tropical Fish', emoji: '🐠', cost: 250 },
@@ -132,28 +123,17 @@
             { id: 'whale', name: 'Whale', emoji: '🐋', cost: 5000 },
         ];
 
-        // --- Get HTML Elements ---
         const pointsDisplay = document.getElementById('points-display');
         const storeGrid = document.getElementById('store-grid');
 
-        /**
-         * This function runs every 0.5s to keep the UI in sync.
-         * It updates the points display and re-draws the store
-         * to enable/disable buttons based on the current point total.
-         */
         function refreshUI() {
-            // Get current points from localStorage
             const currentPoints = getPoints();
 
-            // Update the points display at the top
             pointsDisplay.textContent = currentPoints;
 
-            // Clear the grid to re-draw
             storeGrid.innerHTML = '';
 
-            // Loop through each item and create its HTML card
             for (const item of STORE_ITEMS) {
-                // Check if the user can afford this item
                 const canAfford = currentPoints >= item.cost;
 
                 const cardHTML = `
@@ -172,50 +152,32 @@
                     </div>
                 `;
 
-                // Add the new card to the grid
                 storeGrid.insertAdjacentHTML('beforeend', cardHTML);
             }
         }
 
-        /**
-         * Handles the click event when a user tries to buy an item.
-         */
         function handleBuyClick(event) {
-            // Only act if a 'buy-btn' was clicked
+
             const buyButton = event.target.closest('.buy-btn');
-            
-            // If the click wasn't on a button or the button is disabled, do nothing
+      
             if (!buyButton || buyButton.disabled) {
                 return;
             }
 
-            // Get item details from the button's data attributes
             const cost = parseInt(buyButton.dataset.cost, 10);
             const itemId = buyButton.dataset.id;
             
-            // 1. Remove the points
             removePoints(cost);
 
-            // 2. TODO: Add logic to "give" the item to the user
-            // For now, we just show an alert
             alert(`You bought a ${itemId} for ${cost} points!`);
-            // (In the future, you could save this to localStorage)
 
-            // 3. Immediately refresh the UI to update points and buttons
             refreshUI();
         }
 
-
-        // --- Event Listeners ---
-        
-        // Listen for clicks on the entire grid (event delegation)
         storeGrid.addEventListener('click', handleBuyClick);
 
-        // Run the refresh function every 0.5s to poll for changes
-        // This keeps it in sync with other pages (like the dashboard)
         setInterval(refreshUI, 500);
 
-        // Run once on page load to draw the store immediately
         document.addEventListener('DOMContentLoaded', refreshUI);
 
     </script>

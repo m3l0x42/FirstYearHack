@@ -28,17 +28,14 @@
     <script>
         const iframe = document.getElementById('content-frame');
         
-        // Click the 'NAME' logo to return to the dashboard
         document.getElementById('nav-home').addEventListener('click', () => {
             iframe.src = 'dashboard.html';
         });
 
-        // NEW: Click the 'HOME' button to return to the dashboard
         document.getElementById('nav-dashboard').addEventListener('click', () => {
             iframe.src = 'dashboard.html';
         });
 
-        // These links remain the same
         document.getElementById('nav-education').addEventListener('click', () => {
             iframe.src = 'education.html';
         });
@@ -51,10 +48,8 @@
             iframe.src = 'settings.html';
         });
 
-        // This is for your popup notifications
         if (window.mainAPI && window.mainAPI.onNavigate) {
             window.mainAPI.onNavigate((page) => {
-                // Change the iframe source when the message is received
                 iframe.src = page;
             });
         }

@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <style>
-        /* --- Styles --- */
         body {
             font-family: Arial, sans-serif;
             padding: 20px;
@@ -37,8 +36,6 @@
             text-align: center;
         }
 
-        /* --- 💡 CSS CHANGES ARE HERE --- */
-
         .achievement-circle {
             width: 80px;
             height: 80px;
@@ -53,11 +50,10 @@
             color: white;
         }
         
-        /* 💡 NEW: Default (locked) icon style */
         .achievement-circle::before {
-            content: '🔒'; /* Padlock icon */
-            filter: grayscale(100%); /* Makes the emoji grey */
-            opacity: 0.6; /* Makes it a bit faded */
+            content: '🔒';
+            filter: grayscale(100%);
+            opacity: 0.6;
             transition: all 0.3s ease;
         }
 
@@ -66,15 +62,12 @@
             border-color: #f0c000;
         }
 
-        /* 💡 UPDATED: Unlocked icon style */
         .achievement-circle.unlocked::before {
             content: '🏆'; 
-            filter: grayscale(0%); /* Ensures full color */
-            opacity: 1; /* Ensures full opacity */
+            filter: grayscale(0%);
+            opacity: 1;
         }
-        
-        /* --- End of CSS Changes --- */
-
+    
         .achievement-text {
             font-size: 0.9em;
             color: #555;
@@ -136,7 +129,6 @@
     <script src="lib/points.js"></script>
 
     <script>
-        // --- Your JavaScript is unchanged ---
         document.addEventListener('DOMContentLoaded', () => {
             
             const ACHIEVEMENT_MILESTONES = [

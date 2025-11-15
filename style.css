@@ -1,0 +1,88 @@
+/* Basic reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden; /* Prevent scrolling on the main shell */
+}
+
+/* Flexbox container for the 2-column layout */
+.app-container {
+    display: flex;
+    height: 100%;
+    background-color: #c8ffff; 
+}
+
+/* Sidebar styling */
+.sidebar {
+    width: 220px; 
+    flex-shrink: 0; 
+    background-color: #a0dcfc; 
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-header {
+    padding: 20px;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: white;
+    background-color: #3b5998; 
+    text-align: center;
+    cursor: pointer; /* NEW: Show it's clickable */
+}
+
+.user-info {
+    padding: 15px 20px;
+    color: #333;
+    font-size: 0.9em;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.nav-menu {
+    list-style: none;
+    width: 100%;
+    padding-top: 15px;
+}
+
+.nav-menu li {
+    padding: 0 15px 10px 15px; 
+}
+
+.nav-menu li button {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 1em;
+    font-weight: bold;
+    text-align: left;
+    color: white;
+    background-color: #4a86e8; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.nav-menu li button:hover {
+    background-color: #3c70c0; 
+}
+
+/* Main content area styling */
+.content-area {
+    flex-grow: 1; 
+    height: 100vh;
+    /* REMOVED padding: 20px; */
+}
+
+#content-frame {
+    width: 100%;
+    height: 100%; /* CHANGED to 100% */
+    border: none;
+    background-color: transparent; /* NEW: This is the key! */
+}

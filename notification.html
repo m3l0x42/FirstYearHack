@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification</title>
+    <style>
+        body {
+            background-color: #333;
+            color: white;
+            padding: 15px 20px;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+            box-sizing: border-box; /* Include padding in height */
+        }
+        .content {
+            font-size: 0.95em;
+            line-height: 1.4;
+        }
+        .button-container {
+            display: flex;
+            justify-content: flex-end; /* Align buttons to the right */
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .btn {
+            background-color: #555;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .btn:hover {
+            background-color: #777;
+        }
+        .btn-primary {
+            background-color: #4a86e8;
+        }
+        .btn-primary:hover {
+            background-color: #3c70c0;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <b>Time for a break!</b> 🧠<br>
+        Look at something 20 feet away for 20 seconds.
+    </div>
+    
+    <div class="button-container">
+        <button id="info" class="btn btn-primary">Info</button>
+
+        <button id="skip" class="btn">Skip</button>
+
+        <button id="confirm" class="btn">Done!</button>
+    </div>
+
+    <script>
+        // Calls the function exposed in the preload script
+        document.getElementById('skip').addEventListener('click', () => {
+            window.notificationAPI.closeNotification();
+        });
+        
+        document.getElementById('confirm').addEventListener('click', () => {
+            window.notificationAPI.closeNotification();
+        });
+
+        document.getElementById('info').addEventListener('click', () => {
+            window.notificationAPI.openEducation();
+        });
+    </script>
+</body>
+</html>

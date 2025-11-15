@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <nav class="sidebar">
+            <div class="sidebar-header" id="nav-home">
+                NAME
+            </div>
+            <ul class="nav-menu">
+                <li><button id="nav-dashboard">HOME</button></li>
+                <li><button id="nav-education">EDUCATION</button></li>
+                <li><button id="nav-store">STORE</button></li>
+                <li><button id="nav-settings">SETTINGS</button></li>
+            </ul>
+        </nav>
+
+        <main class="content-area">
+            <iframe id="content-frame" src="dashboard.html" frameborder="0"></iframe>
+        </main>
+    </div>
+
+    <script>
+        const iframe = document.getElementById('content-frame');
+        
+        // Click the 'NAME' logo to return to the dashboard
+        document.getElementById('nav-home').addEventListener('click', () => {
+            iframe.src = 'dashboard.html';
+        });
+
+        // NEW: Click the 'HOME' button to return to the dashboard
+        document.getElementById('nav-dashboard').addEventListener('click', () => {
+            iframe.src = 'dashboard.html';
+        });
+
+        // These links remain the same
+        document.getElementById('nav-education').addEventListener('click', () => {
+            iframe.src = 'education.html';
+        });
+
+        document.getElementById('nav-store').addEventListener('click', () => {
+            iframe.src = 'store.html';
+        });
+
+        document.getElementById('nav-settings').addEventListener('click', () => {
+            iframe.src = 'settings.html';
+        });
+
+        // This is for your popup notifications
+        if (window.mainAPI && window.mainAPI.onNavigate) {
+            window.mainAPI.onNavigate((page) => {
+                // Change the iframe source when the message is received
+                iframe.src = page;
+            });
+        }
+
+    </script>
+</body>
+</html>

@@ -17,18 +17,46 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            height: 100%;
-            box-sizing: border-box; /* Include padding in height */
+            height: 100vh; 
+            box-sizing: border-box; 
+            position: relative; 
         }
+
+        /* Timer style (5-min timer) */
+        .timer-display {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #4a86e8; 
+            margin-bottom: 5px;
+        }
+
         .content {
             font-size: 0.95em;
             line-height: 1.4;
+            /* margin-top reduced as the home button is gone */
+            margin-top: 5px; 
+            text-align: center; 
+            margin-bottom: 15px; 
         }
+
+        /* Style for the image container */
+        .image-container {
+            text-align: center; 
+            margin-bottom: 20px; 
+        }
+        .image-container img {
+            max-width: 100%; 
+            height: auto;
+            border-radius: 5px; 
+            display: block; 
+            margin: 0 auto; 
+        }
+
         .button-container {
             display: flex;
-            justify-content: flex-end; /* Align buttons to the right */
+            justify-content: flex-end; 
             gap: 10px;
-            margin-top: 15px;
+            margin-top: auto; 
         }
         .btn {
             background-color: #555;
@@ -39,43 +67,101 @@
             font-size: 0.9em;
             cursor: pointer;
             transition: background-color 0.2s;
+            min-width: 75px; /* Ensures the button doesn't jump when text changes */
         }
-        .btn:hover {
+        .btn:hover:not(:disabled) { 
             background-color: #777;
         }
         .btn-primary {
             background-color: #4a86e8;
         }
-        .btn-primary:hover {
+        .btn-primary:hover:not(:disabled) {
             background-color: #3c70c0;
+        }
+        /* Style for disabled buttons to make them visually greyed out */
+        .btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
         }
     </style>
 </head>
 <body>
     <div class="content">
+        <div id="timer" class="timer-display">5:00</div>
+        
         <b>Time for a break!</b> 🧠<br>
         Look at something 20 feet away for 20 seconds.
     </div>
     
+    <div class="image-container">
+        <img src="assets/20photo.jpeg" alt="Image related to break time">
+    </div>
+
     <div class="button-container">
         <button id="info" class="btn btn-primary">Info</button>
-
         <button id="skip" class="btn">Skip</button>
-
-        <button id="confirm" class="btn">Done!</button>
+        <button id="confirm" class="btn" disabled>Done (20s)</button> 
     </div>
 
     <script>
-        // Calls the function exposed in the preload script
-        document.getElementById('skip').addEventListener('click', () => {
+        const initialTime = 5 * 60; // 5 minutes in seconds
+        let timeRemaining = initialTime;
+        const timerDisplay = document.getElementById('timer');
+        const skipButton = document.getElementById('skip');
+        const confirmButton = document.getElementById('confirm'); 
+        let countdownInterval;
+
+        const buttonDelay = 20; // 20 seconds delay
+        let buttonTime = buttonDelay;
+        let buttonTimerInterval;
+
+        // 💡 NEW: Function to handle the 20-second countdown in the button
+        function updateButtonTimer() {
+            if (buttonTime > 0) {
+                confirmButton.textContent = `Done (${buttonTime}s)`;
+                buttonTime--;
+            } else {
+                clearInterval(buttonTimerInterval);
+                confirmButton.textContent = 'Done!';
+                confirmButton.disabled = false;
+            }
+        }
+
+        // Function to update the main 5-minute timer display
+        function updateTimer() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            
+            timerDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+            if (timeRemaining <= 0) {
+                clearInterval(countdownInterval);
+                // Ensure the button timer also stops if the main timer runs out
+                clearInterval(buttonTimerInterval); 
+                timerDisplay.textContent = "Time's Up!";
+                skipButton.click(); 
+            } else {
+                timeRemaining--;
+            }
+        }
+
+        // Start the main countdown and the button timer when the page loads
+        countdownInterval = setInterval(updateTimer, 1000); // Start 5-minute timer
+        buttonTimerInterval = setInterval(updateButtonTimer, 1000); // Start 20-second button timer
+
+        // Helper function to stop all timers when closing
+        function stopAllTimersAndClose() {
+            clearInterval(countdownInterval);
+            clearInterval(buttonTimerInterval);
             window.notificationAPI.closeNotification();
-        });
-        
-        document.getElementById('confirm').addEventListener('click', () => {
-            window.notificationAPI.closeNotification();
-        });
+        }
+
+        // Event listeners updated to use the helper function
+        skipButton.addEventListener('click', stopAllTimersAndClose);
+        confirmButton.addEventListener('click', stopAllTimersAndClose);
 
         document.getElementById('info').addEventListener('click', () => {
+            stopAllTimersAndClose(); // Assuming going to info also closes the notification
             window.notificationAPI.openEducation();
         });
     </script>

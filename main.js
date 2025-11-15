@@ -41,8 +41,8 @@ function createNotificationWindow() {
 
     // Calculate position for top-right corner, respecting the working area (excluding taskbar)
     const { width } = screen.getPrimaryDisplay().workAreaSize;
-    const NOTIFICATION_WIDTH = 350;
-    const NOTIFICATION_HEIGHT = 120; // <-- INCREASED HEIGHT for new buttons
+    const NOTIFICATION_WIDTH = 400;
+    const NOTIFICATION_HEIGHT = 330; // <-- INCREASED HEIGHT for new buttons
     const PADDING = 20;
 
     const x = width - NOTIFICATION_WIDTH - PADDING;

@@ -32,30 +32,301 @@
         p {
             line-height: 1.6;
         }
+        /* Modern grid and card styles for the third box */
+        .modern-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-top: 12px;
+        }
+        .card {
+            background: linear-gradient(180deg,#ffffff 0%,#fbfdff 100%);
+            border: 1px solid rgba(30,80,160,0.08);
+            border-radius: 12px;
+            padding: 14px;
+            box-shadow: 0 6px 18px rgba(31,78,166,0.06);
+            transition: transform .18s ease, box-shadow .18s ease;
+            display: flex;
+            flex-direction: column;
+            min-height: 100px;
+        }
+        .card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(31,78,166,0.09); }
+        .card-title { margin: 0 0 8px 0; color: #11468b; font-weight:700; font-size:1rem; }
+        .card-desc { margin: 0; color: #333; font-size:0.95rem; line-height:1.45; }
+        /* details/summary styling for collapsible boxes */
+        details.content-box {
+            padding: 0; /* content-box padding applied to inner area */
+            border: none;
+            background: transparent;
+        }
+        details.content-box > summary {
+            display: block;
+            padding: 18px 20px;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            color: #11468b;
+            list-style: none;
+        }
+        /* hide default marker and add custom chevron */
+        details.content-box > summary::-webkit-details-marker { display: none; }
+        details.content-box > summary::before {
+            content: '▸';
+            display: inline-block;
+            margin-right: 10px;
+            transition: transform 0.15s ease;
+            color: #2b5fa8;
+        }
+        details.content-box[open] > summary::before { transform: rotate(90deg); }
+        /* content area styling inside opened details */
+        details.content-box > .details-body {
+            padding: 16px 20px 20px 20px;
+            background: #fff;
+            border: 1px solid #e6e6e6;
+            border-radius: 8px;
+            margin-top: -8px;
+        }
+        /* for large box variant */
+        details.content-box.content-box-large > summary { font-size:1.15rem; padding:20px; }
     </style>
 </head>
 <body>
     <h1>Education: Health Exercises</h1>
     
-    <div class="content-box">
-        <h2>Exercise 1: The 20-20-20 Rule</h2>
-        <p>This is the one from the popup! Every <strong>20 minutes</strong>, take a break and look at something <strong>20 feet</strong> away for at least <strong>20 seconds</strong>. This helps reduce digital eye strain.</p>
-    </div>
+    <details class="content-box content-box-large">
+        <summary>Conditions</summary>
+        <div class="details-body">
+            <div class="modern-grid">
+                <article class="card">
+                    <h3 class="card-title">Age-Related Macular Degeneration (AMD)</h3>
+                    <p class="card-desc">A leading cause of vision loss in older adults; damages the macula and affects sharp central vision.</p>
+                </article>
 
-    <div class="content-box">
-        <h2>Exercise 2: Desk Stretches</h2>
-        <p>Perform simple stretches at your desk to prevent muscle stiffness.
+                <article class="card">
+                    <h3 class="card-title">Cataracts</h3>
+                    <p class="card-desc">Clouding of the natural lens of the eye, causing blurry or dim vision; extremely common with aging.</p>
+                </article>
+
+                <article class="card">
+                    <h3 class="card-title">Glaucoma</h3>
+                    <p class="card-desc">A group of diseases that damage the optic nerve—often due to high eye pressure—leading to gradual, irreversible vision loss.</p>
+                </article>
+
+                <article class="card">
+                    <h3 class="card-title">Diabetic Retinopathy</h3>
+                    <p class="card-desc">Vision-threatening damage to the retinal blood vessels caused by diabetes.</p>
+                </article>
+
+                <article class="card">
+                    <h3 class="card-title">Dry Eye</h3>
+                    <p class="card-desc">A chronic condition in which the eyes do not make enough tears or tears evaporate too quickly, causing irritation and blurred vision.</p>
+                </article>
+
+                <article class="card">
+                    <h3 class="card-title">Retinal Detachment</h3>
+                    <p class="card-desc">A medical emergency where the retina separates from the back of the eye, risking permanent vision loss.</p>
+                </article>
+
+                <article class="card">
+                    <h3 class="card-title">Pink Eye (Conjunctivitis)</h3>
+                    <p class="card-desc">Inflammation of the tissue covering the white of the eye, often due to infection or allergies; causes redness and discharge.</p>
+                </article>
+
+                <article class="card">
+                    <h3 class="card-title">Amblyopia (Lazy Eye)</h3>
+                    <p class="card-desc">A childhood condition where one eye does not develop normal vision because the brain favors the other eye.</p>
+                </article>
+
+                <article class="card">
+                    <h3 class="card-title">Macular Edema</h3>
+                    <p class="card-desc">Swelling in the macula due to fluid leakage, commonly from diabetes or vein occlusion; affects sharp central vision.</p>
+                </article>
+
+                <article class="card">
+                    <h3 class="card-title">Floaters &amp; Vitreous Detachment</h3>
+                    <p class="card-desc">Specks or strands in vision caused by changes in the gel inside the eye; vitreous detachment occurs when that gel pulls away from the retina.</p>
+                </article>
+
+                <article class="card">
+                    <h3 class="card-title">Color Blindness</h3>
+                    <p class="card-desc">Difficulty distinguishing certain colors, usually due to genetic differences in retina cone cells.</p>
+                </article>
+
+                <article class="card">
+                    <h3 class="card-title">Astigmatism</h3>
+                    <p class="card-desc">Irregular curvature of the cornea or lens causing blurred or distorted vision at all distances.</p>
+                </article>
+
+                <article class="card">
+                    <h3 class="card-title">Nearsightedness (Myopia)</h3>
+                    <p class="card-desc">A refractive error where distance vision is blurry because the eye is too long or the cornea too curved.</p>
+                </article>
+
+                <article class="card">
+                    <h3 class="card-title">Farsightedness (Hyperopia)</h3>
+                    <p class="card-desc">A refractive error where close objects are blurry because the eye is too short or the cornea too flat.</p>
+                </article>
+            </div>
+        </div>
+    </details>
+
+    <details class="content-box">
+        <summary>Exercise 2: Desk Stretches</summary>
+        <div class="details-body">
+            <p>Perform simple stretches at your desk to prevent muscle stiffness.</p>
             <ul>
                 <li><strong>Neck Tilts:</strong> Gently tilt your head from side to side.</li>
                 <li><strong>Shoulder Rolls:</strong> Roll your shoulders backwards and forwards.</li>
                 <li><strong>Torso Twists:</strong> Gently twist your upper body from side to side.</li>
             </ul>
-        </p>
-    </div>
+        </div>
+    </details>
 
-    <div class="content-box">
-        <h2>Exercise 3: Mindful Breathing</h2>
-        <p>Take 60 seconds to focus on your breath. Inhale slowly through your nose, hold for a moment, and exhale slowly through your mouth. This is a great way to reduce stress and reset your focus.</p>
-    </div>
+    <details class="content-box content-box-large">
+        <summary>Exercises</summary>
+        <div class="details-body">
+            <p class="exercises-intro">Short visual exercises to reduce eye strain and train coordination. Try a few throughout the day and stop any exercise if it causes discomfort.</p>
+
+            <div class="modern-grid">
+            <article class="card">
+                <h3 class="card-title">Near-Far Focus</h3>
+                <p class="card-desc">Hold a finger 10 inches from your eyes. Focus on it for 10 seconds, then look at something 20+ feet away for 10 seconds.</p>
+            </article>
+
+            <article class="card">
+                <h3 class="card-title">10-10-10 Method</h3>
+                <p class="card-desc">Every 10 minutes, look about 10 feet away for at least 10 seconds to give your eyes a short rest.</p>
+            </article>
+
+            <article class="card">
+                <h3 class="card-title">Focus Shifting</h3>
+                <p class="card-desc">Move a small object (like a pen) slowly forward and back while keeping it in focus for 2–3 minutes.</p>
+            </article>
+
+            <article class="card">
+                <h3 class="card-title">Tracking a Moving Object</h3>
+                <p class="card-desc">Move your finger horizontally, vertically, and diagonally while following it with your eyes only. Do 3 sets of 30 seconds.</p>
+            </article>
+
+            <article class="card">
+                <h3 class="card-title">Zooming Exercise</h3>
+                <p class="card-desc">Extend your arm with your thumb up. Bring the thumb slowly toward your nose while keeping focus. Repeat 10–15 times.</p>
+            </article>
+
+            <article class="card">
+                <h3 class="card-title">Eye Clock Exercise</h3>
+                <p class="card-desc">Imagine a clock and look at each “number”: 12, 3, 6, 9, then the diagonals. Repeat 3 rounds.</p>
+            </article>
+
+            <article class="card">
+                <h3 class="card-title">Full Eye Circles</h3>
+                <p class="card-desc">Move your eyes in a slow circle clockwise for 10 rotations, then counterclockwise. Repeat 2–3 times.</p>
+            </article>
+
+            <article class="card">
+                <h3 class="card-title">Up-Down Scanning</h3>
+                <p class="card-desc">Look as far up as you can, then as far down. Repeat 10–15 times.</p>
+            </article>
+
+            <article class="card">
+                <h3 class="card-title">Side-to-Side Scanning</h3>
+                <p class="card-desc">Look left as far as possible, then right. Repeat 10–15 times.</p>
+            </article>
+
+            <article class="card">
+                <h3 class="card-title">Diagonal Scanning</h3>
+                <p class="card-desc">Look top-left → bottom-right, then top-right → bottom-left. Repeat 10–15 times.</p>
+            </article>
+
+            <article class="card">
+                <h3 class="card-title">Palming</h3>
+                <p class="card-desc">Rub your hands until warm. Cup them gently over your eyes without pressure for 2–3 minutes.</p>
+            </article>
+
+            <article class="card">
+                <h3 class="card-title">Blinking Drill</h3>
+                <p class="card-desc">Blink rapidly for 10 seconds, then close your eyes gently for 10 seconds. Repeat 5 times.</p>
+            </article>
+
+            <article class="card">
+                <h3 class="card-title">Sunning (Indoor or Outdoor)</h3>
+                <p class="card-desc">Close eyes and let warm light pass through the eyelids. Move your head side to side slowly for 1–2 minutes.</p>
+            </article>
+
+            <article class="card">
+                <h3 class="card-title">Deep Eye Relaxation</h3>
+                <p class="card-desc">Close eyes, take slow deep breaths, and consciously relax eye muscles for about 2 minutes.</p>
+            </article>
+
+            <article class="card">
+                <h3 class="card-title">Dark Room Rest</h3>
+                <p class="card-desc">Sit in a dim or dark room with eyes closed for 3-5 minutes to rest and reset visual stimulation.</p>
+            </article>
+
+            <article class="card">
+                <h3 class="card-title">Pencil Push-Ups</h3>
+                <p class="card-desc">Hold a pencil at arm's length and slowly bring it toward your nose while keeping it single and clear. Stop when it doubles. Repeat 10 times.</p>
+            </article>
+
+            <article class="card">
+                <h3 class="card-title">Brock String Exercise</h3>
+                <p class="card-desc">Use a string with beads to train convergence and eye-team coordination (classic binocular therapy tool).</p>
+            </article>
+
+            <article class="card">
+                <h3 class="card-title">Near Point of Convergence Training</h3>
+                <p class="card-desc">Focus on a small target moving toward your nose and try to maintain a single image. Repeat 5-10 times.</p>
+            </article>
+
+            <article class="card">
+                <h3 class="card-title">Stereo Vision Cards</h3>
+                <p class="card-desc">Use depth-perception cards or apps to train both eyes to work together for improved stereo vision.</p>
+            </article>
+
+            <article class="card">
+                <h3 class="card-title">Fusion Training</h3>
+                <p class="card-desc">Alternate focus between a near target and a far target to strengthen binocular coordination and fusion.</p>
+            </article>
+
+            <article class="card">
+                <h3 class="card-title">20–20–20 Rule (Essential)</h3>
+                <p class="card-desc">Every 20 minutes, look 20 feet away for 20 seconds — a simple, effective habit to reduce digital eye strain.</p>
+            </article>
+
+            <article class="card">
+                <h3 class="card-title">Screen Blink Reminders</h3>
+                <p class="card-desc">Consciously blink fully every 10 seconds for a minute to refresh the tear film and reduce dryness.</p>
+            </article>
+
+            <article class="card">
+                <h3 class="card-title">Micro-Breaks</h3>
+                <p class="card-desc">Take 5-second breaks every 5 minutes to relax eye posture and refocus briefly.</p>
+            </article>
+
+            <article class="card">
+                <h3 class="card-title">Screen Distance Variation</h3>
+                <p class="card-desc">Move your screen slightly forward or back every hour to re-challenge focusing and reduce adaptation strain.</p>
+            </article>
+
+            <article class="card">
+                <h3 class="card-title">The “Awareness Circle”</h3>
+                <p class="card-desc">Look ahead and try to notice objects at the edges of your vision without moving your eyes to build peripheral awareness.</p>
+            </article>
+
+            <article class="card">
+                <h3 class="card-title">Side Awareness Training</h3>
+                <p class="card-desc">Hold your hands out to your sides and wiggle your fingers. Try to see the movement with peripheral vision.</p>
+            </article>
+
+            <article class="card">
+                <h3 class="card-title">Moving Light Exercise</h3>
+                <p class="card-desc">In a dim room, move a small light source side-to-side and follow it with your eyes to train smooth pursuit.</p>
+            </article>
+            </div>
+        </div>
+    </details>
 </body>
 </html>

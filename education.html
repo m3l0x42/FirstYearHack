@@ -53,6 +53,29 @@
         .card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(31,78,166,0.09); }
         .card-title { margin: 0 0 8px 0; color: #11468b; font-weight:700; font-size:1rem; }
         .card-desc { margin: 0; color: #333; font-size:0.95rem; line-height:1.45; }
+    /* 20-20-20 rule: center heading and justify content */
+    #twenty-twenty h2 { text-align: center; }
+    #twenty-twenty p,
+    #twenty-twenty ul,
+    #twenty-twenty li { text-align: justify; text-justify: inter-word; }
+        /* external test button style (used in Tests box) */
+        .external-test-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            background: linear-gradient(90deg, #4a86e8 0%, #6aa0ff 100%);
+            color: #fff;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            margin-top: 10px;
+            box-shadow: 0 6px 18px rgba(74,134,232,0.18);
+            transition: transform 160ms ease, box-shadow 160ms ease, opacity 120ms ease;
+            border: none;
+        }
+        .external-test-button:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(74,134,232,0.20); }
+        .external-test-button:focus { outline: 3px solid rgba(74,134,232,0.18); outline-offset: 3px; }
         /* details/summary styling for collapsible boxes */
         details.content-box {
             padding: 0; /* content-box padding applied to inner area */
@@ -96,6 +119,19 @@
 <body>
     <h1>Education: Health Exercises</h1>
     
+    <!-- 20-20-20 Rule section (prominent, above the collapsible boxes) -->
+    <div class="content-box content-box-large" id="twenty-twenty">
+        <h2>20-20-20 Rule</h2>
+        <p>The 20-20-20 rule is a guideline for preventing digital eye strain: every <strong>20 minutes</strong>, look at something <strong>20 feet</strong> away for at least <strong>20 seconds</strong>. This helps relax the eye muscles after prolonged focus on a screen, which can reduce symptoms like headaches, dry eyes, and blurred vision. The rule applies to any screen, including computers, phones, and tablets.</p>
+
+        <h3>How to follow the rule</h3>
+        <ul>
+            <li><strong>Set a timer:</strong> Every 20 minutes, your timer will remind you to take a break from your screen.</li>
+            <li><strong>Look away:</strong> Shift your gaze from the screen to an object that is about 20 feet (approximately 6 meters) away.</li>
+            <li><strong>Rest your eyes:</strong> Focus on the distant object for at least 20 seconds to allow your eye muscles to relax.</li>
+        </ul>
+    </div>
+
     <details class="content-box content-box-large">
         <summary>Conditions</summary>
         <div class="details-body">
@@ -173,15 +209,13 @@
         </div>
     </details>
 
-    <details class="content-box">
-        <summary>Exercise 2: Desk Stretches</summary>
+    <details class="content-box content-box-large">
+        <summary>Tests</summary>
         <div class="details-body">
-            <p>Perform simple stretches at your desk to prevent muscle stiffness.</p>
-            <ul>
-                <li><strong>Neck Tilts:</strong> Gently tilt your head from side to side.</li>
-                <li><strong>Shoulder Rolls:</strong> Roll your shoulders backwards and forwards.</li>
-                <li><strong>Torso Twists:</strong> Gently twist your upper body from side to side.</li>
-            </ul>
+            <p><strong>Visual acuity test:</strong> Measures sharpness of vision, usually with a Snellen chart that has letters or symbols.</p>
+            <p><strong>Refraction test:</strong> Determines your eyeglass or contact lens prescription to correct vision, often involving an automated refractor and a manually adjusted lens for fine-tuning.</p>
+            <p><strong>Pinhole visual acuity test:</strong> Uses a paddle with tiny holes to help diagnose nearsightedness.</p>
+            <p><a class="external-test-button" href="https://visionscreening.zeiss.com/en-INT/default/check/result" target="_blank" rel="noopener noreferrer">Take online test</a></p>
         </div>
     </details>
 

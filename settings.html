@@ -1,8 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><title>Settings</title><style>body{font-family: Arial, sans-serif; padding: 20px;}</style></head>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Settings</title>
+    <style>
+        :root{--accent:#4a86e8;--muted:#7a7a7a;--card:#fff}
+        body{font-family:Inter, Arial, sans-serif;padding:28px;background:transparent;color:#222}
+        h1{color:var(--accent);margin:0 0 8px}
+        p.lead{margin:0 0 18px;color:var(--muted)}
+
+        .settings-wrap{max-width:980px;margin:0 auto}
+
+        .settings-grid{display:grid;grid-template-columns:1fr;gap:18px}
+
+        /* setting card */
+        .setting-card{background:var(--card);border:1px solid #e6eefb;padding:16px;border-radius:12px;box-shadow:0 6px 18px rgba(74,134,232,0.04)}
+        .setting-card h2{margin:0 0 8px;font-size:1.05rem;color:#11468b}
+        .setting-card p{margin:0 0 12px;color:#333}
+
+        /* option row */
+        .options{display:flex;gap:12px;flex-wrap:wrap}
+        .option-item{flex:1 1 200px;background:linear-gradient(180deg,#fff,#fbfdff);border:1px solid #e6eefb;border-radius:10px;padding:12px;cursor:pointer;display:flex;align-items:flex-start;gap:10px;min-height:72px}
+        .option-item .icon{width:40px;height:40px;border-radius:8px;background:linear-gradient(90deg,var(--accent),#6aa0ff);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+        .option-item .meta{flex:1}
+        .option-item .meta .title{font-weight:700;color:#12386e;margin-bottom:6px}
+        .option-item .meta .desc{color:var(--muted);font-size:0.95rem}
+        .option-item input{display:none}
+        .option-item.selected{outline:3px solid rgba(74,134,232,0.12);transform:translateY(-4px);box-shadow:0 10px 30px rgba(74,134,232,0.06)}
+
+        .note{font-size:0.9rem;color:var(--muted);margin-top:8px}
+
+        /* controls */
+        .controls{display:flex;gap:12px;align-items:center;margin-top:16px}
+        .btn{background:var(--accent);color:#fff;padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:700;box-shadow:0 8px 20px rgba(74,134,232,0.12)}
+        .btn.ghost{background:transparent;color:var(--accent);border:1px solid #d8e6ff}
+
+        /* responsive: make two columns on wider screens */
+        @media(min-width:880px){.settings-grid{grid-template-columns:1fr 420px}}
+    </style>
+</head>
 <body>
-    <h1>Settings</h1>
-    <p>This is where the user settings will go.</p>
+    <div class="settings-wrap">
+        <h1>Settings</h1>
+        <p class="lead">Personalise how notifications and breaks behave. These controls are visual — they show options you can enable.</p>
+
+        <div class="settings-grid">
+            <div class="setting-card">
+                <h2>Notification style</h2>
+                <p>Choose how you'd like to be notified about breaks and exercises.</p>
+
+                <div class="options" role="radiogroup" aria-label="Notification style">
+                    <label class="option-item" data-value="static">
+                        <input type="radio" name="notif" value="static">
+                        <div class="icon">S</div>
+                        <div class="meta">
+                            <div class="title">Static</div>
+                            <div class="desc">Simple non-animated notifications (badge or toast).</div>
+                        </div>
+                    </label>
+
+                    <label class="option-item" data-value="dynamic">
+                        <input type="radio" name="notif" value="dynamic">
+                        <div class="icon">D</div>
+                        <div class="meta">
+                            <div class="title">Dynamic</div>
+                            <div class="desc">Animated guides and short videos to walk you through exercises.</div>
+                        </div>
+                    </label>
+
+                    <label class="option-item" data-value="forced">
+                        <input type="radio" name="notif" value="forced">
+                        <div class="icon">F</div>
+                        <div class="meta">
+                            <div class="title">Forced*</div>
+                            <div class="desc">Limits other activity until you confirm the break/exercise was completed.</div>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="note">*Forced mode is intrusive. Use with caution — shown here for UI purposes only.</div>
+            </div>
+
+            <aside class="setting-card">
+                <h2>Personalisation</h2>
+                <p>Adjust preferences that customise reminders and visual experience.</p>
+                <div style="margin-top:12px">
+                    <label style="display:flex;align-items:center;gap:10px"><input type="checkbox"> Enable personalised schedule</label>
+                    <div style="height:8px"></div>
+                    <label style="display:flex;align-items:center;gap:10px"><input type="checkbox"> Show animated guides</label>
+                    <div style="height:12px"></div>
+                    <label style="display:flex;align-items:center;gap:10px"><input type="checkbox"> Auto-start breaks when due</label>
+                </div>
+                <div class="controls">
+                    <button class="btn">Save settings</button>
+                    <button class="btn ghost">Reset</button>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <script>
+        // Small UI helper: toggle selected visuals for option cards
+        document.querySelectorAll('.option-item').forEach(function(label){
+            var input = label.querySelector('input');
+            label.addEventListener('click', function(e){
+                // when clicked, set checked and update visuals
+                input.checked = true;
+                document.querySelectorAll('.option-item').forEach(function(l){ l.classList.remove('selected'); });
+                label.classList.add('selected');
+            });
+        });
+        // Initialise first option selected
+        var first = document.querySelector('.option-item'); if(first){ first.classList.add('selected'); first.querySelector('input').checked = true; }
+    </script>
 </body>
 </html>

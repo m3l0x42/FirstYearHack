@@ -151,7 +151,7 @@
         skipButton.addEventListener('click', () => {
             // This now works because removePoints() accepts an amount
             if (window.removePoints) {
-                window.removePoints(20);
+                window.removePoints(10);
             }
             stopAllTimersAndClose();
         });
@@ -159,7 +159,7 @@
         confirmButton.addEventListener('click', () => {
             // This now works because addPoints() accepts an amount
             if (window.addPoints) {
-                window.addPoints(40);
+                window.addPoints(30);
             }
             
             // --- 💡 1. ADDED THIS LINE ---

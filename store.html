@@ -1,8 +1,223 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><title>Store</title><style>body{font-family: Arial, sans-serif; padding: 20px;}</style></head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f4;
+            margin: 0;
+            /* Add padding at the top to avoid overlap with the sticky header */
+            padding-top: 80px; 
+        }
+
+        /* --- Points Display (Top Bar) --- */
+        .points-header {
+            position: fixed; /* Sticks to the top */
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #fff;
+            padding: 15px 25px;
+            border-bottom: 2px solid #ddd;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            font-size: 1.2em;
+            font-weight: bold;
+            z-index: 100;
+        }
+        .points-header span {
+            color: #4a86e8;
+            font-size: 1.3em;
+            /* Aligns the number better with the text */
+            vertical-align: middle; 
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* --- Store Grid --- */
+        .store-grid {
+            display: grid;
+            /* Creates responsive columns */
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* --- Item Card --- */
+        .item-card {
+            background-color: #fff;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .item-emoji {
+            font-size: 60px;
+            margin-bottom: 15px;
+            line-height: 1;
+        }
+
+        .item-card h3 {
+            margin: 0 0 10px 0;
+            color: #222;
+        }
+
+        .item-cost {
+            font-size: 0.95em;
+            color: #555;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        /* --- Buy Button --- */
+        .buy-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.2s;
+        }
+        .buy-btn:hover:not(:disabled) {
+            background-color: #218838;
+        }
+        .buy-btn:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+    </style>
+</head>
 <body>
-    <h1>Store</h1>
-    <p>This is where the item store will go.</p>
+
+    <div class="points-header">
+        Your Points: <span id="points-display">0</span>
+    </div>
+
+    <h1>Fish Store</h1>
+
+    <div id="store-grid" class="store-grid">
+        </div>
+
+    <script src="lib/points.js"></script>
+
+    <script>
+        // --- Configuration ---
+        // Define all available store items here
+        const STORE_ITEMS = [
+            { id: 'fish_common', name: 'Common Fish', emoji: '🐟', cost: 100 },
+            { id: 'fish_tropical', name: 'Tropical Fish', emoji: '🐠', cost: 250 },
+            { id: 'fish_puffer', name: 'Pufferfish', emoji: '🐡', cost: 500 },
+            { id: 'shark', name: 'Shark', emoji: '🦈', cost: 1200 },
+            { id: 'octopus', name: 'Octopus', emoji: '🐙', cost: 2000 },
+            { id: 'whale', name: 'Whale', emoji: '🐋', cost: 5000 },
+        ];
+
+        // --- Get HTML Elements ---
+        const pointsDisplay = document.getElementById('points-display');
+        const storeGrid = document.getElementById('store-grid');
+
+        /**
+         * This function runs every 0.5s to keep the UI in sync.
+         * It updates the points display and re-draws the store
+         * to enable/disable buttons based on the current point total.
+         */
+        function refreshUI() {
+            // Get current points from localStorage
+            const currentPoints = getPoints();
+
+            // Update the points display at the top
+            pointsDisplay.textContent = currentPoints;
+
+            // Clear the grid to re-draw
+            storeGrid.innerHTML = '';
+
+            // Loop through each item and create its HTML card
+            for (const item of STORE_ITEMS) {
+                // Check if the user can afford this item
+                const canAfford = currentPoints >= item.cost;
+
+                const cardHTML = `
+                    <div class="item-card">
+                        <div class="item-emoji">${item.emoji}</div>
+                        <h3>${item.name}</h3>
+                        <p class="item-cost">Cost: ${item.cost} points</p>
+                        <button 
+                            class="buy-btn" 
+                            data-cost="${item.cost}" 
+                            data-id="${item.id}"
+                            ${canAfford ? '' : 'disabled'}
+                        >
+                            ${canAfford ? 'Buy' : 'Not Enough Points'}
+                        </button>
+                    </div>
+                `;
+
+                // Add the new card to the grid
+                storeGrid.insertAdjacentHTML('beforeend', cardHTML);
+            }
+        }
+
+        /**
+         * Handles the click event when a user tries to buy an item.
+         */
+        function handleBuyClick(event) {
+            // Only act if a 'buy-btn' was clicked
+            const buyButton = event.target.closest('.buy-btn');
+            
+            // If the click wasn't on a button or the button is disabled, do nothing
+            if (!buyButton || buyButton.disabled) {
+                return;
+            }
+
+            // Get item details from the button's data attributes
+            const cost = parseInt(buyButton.dataset.cost, 10);
+            const itemId = buyButton.dataset.id;
+            
+            // 1. Remove the points
+            removePoints(cost);
+
+            // 2. TODO: Add logic to "give" the item to the user
+            // For now, we just show an alert
+            alert(`You bought a ${itemId} for ${cost} points!`);
+            // (In the future, you could save this to localStorage)
+
+            // 3. Immediately refresh the UI to update points and buttons
+            refreshUI();
+        }
+
+
+        // --- Event Listeners ---
+        
+        // Listen for clicks on the entire grid (event delegation)
+        storeGrid.addEventListener('click', handleBuyClick);
+
+        // Run the refresh function every 0.5s to poll for changes
+        // This keeps it in sync with other pages (like the dashboard)
+        setInterval(refreshUI, 500);
+
+        // Run once on page load to draw the store immediately
+        document.addEventListener('DOMContentLoaded', refreshUI);
+
+    </script>
 </body>
 </html>

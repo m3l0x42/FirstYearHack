@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <style>
-        /* ... all your styles ... */
+        /* --- All your existing styles are perfect --- */
         body {
             font-family: Arial, sans-serif;
             padding: 20px;
@@ -39,11 +39,42 @@
             gap: 10px;
             margin-bottom: 20px;
         }
+        .aquarium {
+            width: 90%;
+            height: 220px;
+            border: 3px solid #666;
+            margin: 20px auto;
+            background-color: #f0f8ff;
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+        }
+        .water {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #1e90ff;
+            transition: height 0.5s ease-in-out;
+        }
+        .fish {
+            font-size: 50px; 
+            position: absolute;
+            left: 40%;
+            transform: rotate(0deg) scaleX(1);
+            filter: grayscale(0%);
+            transition: all 0.5s ease-in-out;
+        }
+        .fish.dead {
+            bottom: 10px !important; 
+            transform: rotate(180deg) scaleX(-1);
+            filter: grayscale(100%);
+        }
     </style>
 </head>
 <body>
     <div class="stats-grid placeholder-box">
-        <div><b>Total points:</b> <span id="points-display">XXX</span></div>
+        <div><b>Total points:</b> <span id="points-display">0</span></div>
         <div><b>Exercises done:</b> XXX</div>
         <div><b>Minutes improving:</b> XXX</div>
     </div>
@@ -53,10 +84,13 @@
         <button id="remove-btn">Remove 10 Points</button>
     </div>
     
-    <div class="placeholder-box" style="height: 300px;">
-        <h3>[Main Content / Aquarium Placeholder]</h3>
+    <div class="placeholder-box">
+        <h3>My Aquarium</h3>
+        <div class="aquarium">
+            <div class="water" id="water-level"></div>
+            <div class="fish" id="fish-display">🐟</div>
+        </div>
     </div>
-
     <div class="placeholder-box">
         <h2>ACHIEVEMENTS</h2>
         <div class="achievements-grid">
@@ -68,6 +102,62 @@
         </div>
     </div>
 
-    <script src="./lib/points.js"></script>
+    <script src="lib/points.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get the elements this script needs to control
+            // Note: The buttons are handled by the "glue code" in lib/points.js
+            const pointsDisplay = document.getElementById('points-display');
+            const water = document.getElementById('water-level');
+            const fish = document.getElementById('fish-display');
+
+            // This function now reads from getPoints() (from lib/points.js)
+            function updateDashboard() {
+                // Get the single source of truth from localStorage
+                const currentPoints = getPoints(); 
+
+                // We update the points display here too, to keep it
+                // in sync with the aquarium animation
+                pointsDisplay.textContent = currentPoints;
+
+                let waterHeight; 
+
+                if (currentPoints === 0) {
+                    waterHeight = 5; // 5% for a "puddle"
+                    water.style.height = waterHeight + '%';
+                    fish.classList.add('dead');
+                
+                } else {
+                    fish.classList.remove('dead'); // Fish is alive!
+
+                    const waterRange = 85; 
+                    const minWater = 5;
+                    let effectivePoints = Math.min(currentPoints, 100);
+                    let fullnessPercent = effectivePoints / 100;
+                    
+                    waterHeight = minWater + (fullnessPercent * waterRange); 
+                    water.style.height = waterHeight + '%';
+
+                    const aquariumHeight = document.querySelector('.aquarium').clientHeight; 
+                    const fishSize = 50; 
+                    
+                    let fishBottomPosition = (waterHeight / 100) * aquariumHeight - (fishSize / 2) - 10;
+                    fishBottomPosition = Math.max(10, fishBottomPosition); 
+                    
+                    fish.style.bottom = fishBottomPosition + 'px';
+                }
+            }
+
+            // 💡 3. SET UP THE POLLING
+            // This is the core of your request:
+            // Run the updateDashboard function every 500ms (0.5 seconds)
+            setInterval(updateDashboard, 500);
+
+            // 💡 4. INITIAL UPDATE
+            // Run the function once right away on page load
+            updateDashboard();
+        });
+    </script>
 </body>
 </html>
